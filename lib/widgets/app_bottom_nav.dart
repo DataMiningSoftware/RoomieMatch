@@ -12,122 +12,85 @@ class AppBottomNavBar extends StatelessWidget {
     required this.onTap,
   });
 
-  static const List<_NavItem> _items = [
-    _NavItem(Icons.home_rounded, Icons.home_outlined, 'Home'),
-    _NavItem(Icons.chat_bubble_rounded, Icons.chat_bubble_outline, 'Chats'),
-    _NavItem(Icons.style_rounded, Icons.style_outlined, 'Swipe'),
-    _NavItem(Icons.settings_rounded, Icons.settings_outlined, 'Settings'),
-  ];
-
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: AppColors.accent,
+        color: AppColors.primary,
         borderRadius: const BorderRadius.only(
           topLeft: Radius.circular(28),
           topRight: Radius.circular(28),
         ),
         border: Border(
-          top: BorderSide(color: AppColors.primary.withOpacity(0.18), width: 1.2),
-          left: BorderSide(color: AppColors.primary.withOpacity(0.12)),
-          right: BorderSide(color: AppColors.primary.withOpacity(0.12)),
+          top: BorderSide(color: Colors.white.withOpacity(0.25), width: 1.2),
+          left: BorderSide(color: Colors.white.withOpacity(0.15)),
+          right: BorderSide(color: Colors.white.withOpacity(0.15)),
         ),
         boxShadow: const [
           BoxShadow(
-            color: Color(0x1A000000),
+            color: Color(0x33000000),
             spreadRadius: 1,
             blurRadius: 12,
             offset: Offset(0, -4),
           ),
         ],
       ),
-      child: SafeArea(
-        top: false,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
-          child: Row(
-            children: List.generate(_items.length, (index) {
-              final bool selected = index == currentIndex;
-              return Expanded(
-                child: _NavButton(
-                  item: _items[index],
-                  selected: selected,
-                  onTap: () => onTap(index),
-                ),
-              );
-            }),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _NavButton extends StatelessWidget {
-  final _NavItem item;
-  final bool selected;
-  final VoidCallback onTap;
-
-  const _NavButton({
-    required this.item,
-    required this.selected,
-    required this.onTap,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onTap,
-      borderRadius: BorderRadius.circular(20),
-      splashColor: Colors.transparent,
-      highlightColor: Colors.transparent,
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 220),
-        curve: Curves.easeOut,
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(8, 6, 8, 12),
+        child: Row(
           children: [
-            AnimatedContainer(
-              duration: const Duration(milliseconds: 220),
-              curve: Curves.easeOut,
-              width: selected ? 52 : 40,
-              height: 32,
-              decoration: BoxDecoration(
-                color: selected ? AppColors.primary : Colors.transparent,
-                borderRadius: BorderRadius.circular(16),
-                border: selected
-                    ? Border.all(color: Colors.white, width: 1.5)
-                    : Border.all(color: Colors.transparent, width: 1.5),
-              ),
-              child: Icon(
-                selected ? item.activeIcon : item.icon,
-                size: 22,
-                color: selected ? Colors.white : AppColors.textMuted,
-              ),
-            ),
-            const SizedBox(height: 2),
-            AnimatedDefaultTextStyle(
-              duration: const Duration(milliseconds: 220),
-              style: TextStyle(
-                fontSize: 11,
-                fontWeight: selected ? FontWeight.w600 : FontWeight.w500,
-                color: selected ? AppColors.primary : AppColors.textMuted,
-              ),
-              child: Text(item.label),
-            ),
+            _buildItem(0, Icons.home_rounded, Icons.home_outlined, 'Home'),
+            _buildItem(1, Icons.chat_bubble_rounded, Icons.chat_bubble_outline, 'Chats'),
+            _buildItem(2, Icons.style_rounded, Icons.style_outlined, 'Swipe'),
+            _buildItem(3, Icons.settings_rounded, Icons.settings_outlined, 'Settings'),
           ],
         ),
       ),
     );
   }
-}
 
-class _NavItem {
-  final IconData activeIcon;
-  final IconData icon;
-  final String label;
+  Widget _buildItem(int index, IconData activeIcon, IconData icon, String label) {
+    final bool selected = index == currentIndex;
 
-  const _NavItem(this.activeIcon, this.icon, this.label);
+    return Expanded(
+      child: InkWell(
+        onTap: () => onTap(index),
+        borderRadius: BorderRadius.circular(20),
+        splashColor: Colors.white.withOpacity(0.1),
+        highlightColor: Colors.white.withOpacity(0.1),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 6),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              AnimatedContainer(
+                duration: const Duration(milliseconds: 200),
+                curve: Curves.easeOut,
+                width: selected ? 56 : 42,
+                height: 32,
+                decoration: BoxDecoration(
+                  color: selected ? Colors.white : Colors.transparent,
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                child: Icon(
+                  selected ? activeIcon : icon,
+                  size: 22,
+                  color: selected ? AppColors.primary : Colors.white.withOpacity(0.85),
+                ),
+              ),
+              const SizedBox(height: 3),
+              Text(
+                label,
+                style: TextStyle(
+                  fontSize: 11,
+                  fontWeight: selected ? FontWeight.w700 : FontWeight.w500,
+                  color: selected ? Colors.white : Colors.white.withOpacity(0.75),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
 }
