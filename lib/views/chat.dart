@@ -5,6 +5,7 @@ import '../app_theme.dart';
 import '../widgets/app_bottom_nav.dart';
 import '../services/chat_db_service.dart';
 import '../services/db_service.dart';
+import '../services/mock_backend.dart';
 
 import '../helpers/auth_box_helper.dart';
 
@@ -105,13 +106,14 @@ class _ChatPageState extends State<ChatPage> {
                   itemCount: chats.length,
                   itemBuilder: (context, index) {
                     final chat = chats[index];
+                    final String avatar = MockBackend.profileImageFor(chat['chat_user_id']);
                     DateTime localTime = DateTime.fromMillisecondsSinceEpoch(chat['latest_time'] * 1000, isUtc: false);
                     String formattedTime = DateFormat('dd-MM-yyyy HH:mm').format(localTime);
 
                     return ListTile(
-                      leading: const CircleAvatar(
+                      leading: CircleAvatar(
                         radius: 26,
-                        backgroundImage: AssetImage('assets/profile/1.jpg'), // Load from local file
+                        backgroundImage: AssetImage(avatar), // Per-user profile image
                       ),
                       title: Text(
                         chat['first_name'].toString(),
@@ -128,7 +130,7 @@ class _ChatPageState extends State<ChatPage> {
                             builder: (context) => ChatDetailPage(
                               userId: chat['chat_user_id'],
                               firstName: chat['first_name'],
-                              profileImageAsset: 'assets/profile/1.jpg',
+                              profileImageAsset: avatar,
                             ),
                           ),
                         );

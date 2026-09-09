@@ -22,13 +22,18 @@ class AppBottomNavBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         color: AppColors.accent,
-        borderRadius: BorderRadius.only(
+        borderRadius: const BorderRadius.only(
           topLeft: Radius.circular(28),
           topRight: Radius.circular(28),
         ),
-        boxShadow: [
+        border: Border(
+          top: BorderSide(color: AppColors.primary.withOpacity(0.18), width: 1.2),
+          left: BorderSide(color: AppColors.primary.withOpacity(0.12)),
+          right: BorderSide(color: AppColors.primary.withOpacity(0.12)),
+        ),
+        boxShadow: const [
           BoxShadow(
             color: Color(0x1A000000),
             spreadRadius: 1,
@@ -92,6 +97,9 @@ class _NavButton extends StatelessWidget {
               decoration: BoxDecoration(
                 color: selected ? AppColors.primary : Colors.transparent,
                 borderRadius: BorderRadius.circular(16),
+                border: selected
+                    ? Border.all(color: Colors.white, width: 1.5)
+                    : Border.all(color: Colors.transparent, width: 1.5),
               ),
               child: Icon(
                 selected ? item.activeIcon : item.icon,

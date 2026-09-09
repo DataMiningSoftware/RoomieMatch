@@ -9,6 +9,7 @@ class MockBackend {
   static const List<Map<String, dynamic>> _mockMatches = [
     {
       "user_id": "m1",
+      "image": "assets/profile/1.jpg",
       "first_name": "Emma",
       "age": 22,
       "gender": "F",
@@ -22,6 +23,7 @@ class MockBackend {
     },
     {
       "user_id": "m2",
+      "image": "assets/profile/2.jpg",
       "first_name": "Bruno",
       "age": 24,
       "gender": "M",
@@ -35,6 +37,7 @@ class MockBackend {
     },
     {
       "user_id": "m3",
+      "image": "assets/profile/3.png",
       "first_name": "Jasnie",
       "age": 21,
       "gender": "F",
@@ -48,6 +51,7 @@ class MockBackend {
     },
     {
       "user_id": "m4",
+      "image": "assets/profile/7.jpg",
       "first_name": "Zack",
       "age": 25,
       "gender": "M",
@@ -61,6 +65,7 @@ class MockBackend {
     },
     {
       "user_id": "m5",
+      "image": "assets/profile/5.png",
       "first_name": "Mimi",
       "age": 23,
       "gender": "F",
@@ -74,6 +79,7 @@ class MockBackend {
     },
     {
       "user_id": "m6",
+      "image": "assets/profile/8.png",
       "first_name": "Daniel",
       "age": 26,
       "gender": "M",
@@ -87,6 +93,7 @@ class MockBackend {
     },
     {
       "user_id": "m7",
+      "image": "assets/profile/6.png",
       "first_name": "Sofia",
       "age": 22,
       "gender": "F",
@@ -100,6 +107,7 @@ class MockBackend {
     },
     {
       "user_id": "m8",
+      "image": "assets/profile/10.png",
       "first_name": "Ken",
       "age": 24,
       "gender": "M",
@@ -112,6 +120,17 @@ class MockBackend {
       "interests": ["Cycling", "Finance", "Cooking"],
     },
   ];
+
+  /// Public read-only view of the demo profiles.
+  static List<Map<String, dynamic>> get profiles => List.unmodifiable(_mockMatches);
+
+  /// Resolves the profile image path for a given user id.
+  static String profileImageFor(String userId) {
+    for (final m in _mockMatches) {
+      if (m['user_id'] == userId) return m['image'] as String;
+    }
+    return 'assets/profile/1.jpg';
+  }
 
   static Map<String, dynamic> get(String endpoint) {
     if (endpoint.contains('frontend-connection-check')) {

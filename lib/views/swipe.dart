@@ -84,9 +84,10 @@ class _SwipePageState extends State<SwipePage> with TickerProviderStateMixin {
       for (final m in matches) {
         final match = Map<String, dynamic>.from(m);
         final gender = match['gender'] ?? "F";
-        final photo = gender == "M"
-            ? _malePhoto[male++ % _malePhoto.length]
-            : _femalePhoto[female++ % _femalePhoto.length];
+        final String photo = match['image'] as String? ??
+            (gender == "M"
+                ? _malePhoto[male++ % _malePhoto.length]
+                : _femalePhoto[female++ % _femalePhoto.length]);
 
         _profiles.add({
           ...match,
